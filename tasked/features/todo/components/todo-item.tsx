@@ -85,7 +85,7 @@ const TodoItem: TodoItemType = ({
                 autoFocus
                 onChangeText={setText}
                 onSubmitEditing={handleSubmit}
-                onBlur={() => onBlur(todo.id)}
+                onBlur={handleSubmit}
               />
             ) : (
               <TextLabel
