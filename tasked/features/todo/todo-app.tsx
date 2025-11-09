@@ -1,5 +1,6 @@
 import { AddCrossFAB } from "@/components/atoms/add-cross-fab";
 import { LoadingScreen } from "@/components/organisms/loading-screen";
+import { useOperationStore } from "@/stores/operation.store";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -11,7 +12,7 @@ import {
 } from "react-native";
 import { TodoList } from "./components/todo-list";
 import { useTodoApp } from "./hooks/use-todo-app";
-import { useTodos } from "./hooks/use-todos";
+import { useTodoStoreBase } from "./todo.store";
 
 import type { JSX } from "react";
 
@@ -25,14 +26,10 @@ type TodosAppType = () => JSX.Element;
 const TodosApp: TodosAppType = () => {
   //
 
-  const [state, { add, remove, toggle, update }] = useTodos();
+  const todos = useTodoStoreBase((s) => s.todos);
+  const todoState = useOperationStore((s) => s.todoState);
 
-  const [screen, handlers] = useTodoApp({
-    add,
-    remove,
-    update,
-    todos: state.todos,
-  });
+  const [state, handlers] = useTodoApp();
 
   const dismissKeyboard = () => Keyboard.dismiss();
 
@@ -50,19 +47,11 @@ const TodosApp: TodosAppType = () => {
     >
       <TouchableWithoutFeedback onPress={dismissKeyboard} accessible={false}>
         <View style={styles.contentContainer}>
-          <TodoList
-            todos={state.todos}
-            onDelete={remove}
-            onToggle={toggle}
-            onUpdate={handlers.update}
-            isEditing={screen.todoState.editing}
-            onBlur={handlers.blur}
-            onTextLabelPress={handlers.press}
-          />
+          <TodoList todos={todos} />
 
           <View style={styles.fabContainer}>
             <AddCrossFAB
-              isAdding={screen.todoState.adding}
+              isAdding={todoState.adding}
               onPress={handlers.add}
               style={[]}
               color="#FFFFFF"
@@ -87,3 +76,4 @@ const styles = StyleSheet.create({
 
 export { TodosApp };
 export type { TodosAppType };
+
