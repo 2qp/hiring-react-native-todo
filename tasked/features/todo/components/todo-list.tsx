@@ -1,4 +1,4 @@
-import { StyleSheet, View, VirtualizedList } from "react-native";
+import { Platform, StyleSheet, View, VirtualizedList } from "react-native";
 import { TodoItem } from "./todo-item";
 
 import type { JSX } from "react";
@@ -28,6 +28,9 @@ const TodoList: TodoListType = ({ todos, ...props }) => {
         getItemCount={getItemCount}
         getItem={getItem}
         keyExtractor={(item) => item.id}
+        onScrollToIndexFailed={() => {}}
+        keyboardDismissMode="interactive"
+        keyboardShouldPersistTaps={Platform.OS === "ios" ? "handled" : "always"}
         renderItem={({ item }) => <TodoItem todo={item} {...props} />}
       />
     </View>
