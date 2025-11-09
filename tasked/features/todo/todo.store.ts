@@ -52,4 +52,4 @@ const useTodoStoreBase = create<TodoStore>()(
 
 const useTodoStore = createSelectors(useTodoStoreBase);
 
-export { useTodoStore };
+export { useTodoStore, useTodoStoreBase };
