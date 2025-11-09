@@ -5,4 +5,11 @@ type Todo = {
   isDone: boolean;
 };
 
-export type { Todo };
+type TodoUpdate = Partial<Omit<Todo, "id">>;
+
+type EditingState = {
+  id: string;
+  state: boolean;
+} | null;
+
+export type { EditingState, Todo, TodoUpdate };
