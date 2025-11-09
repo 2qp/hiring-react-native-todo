@@ -1,6 +1,7 @@
 type Todo = {
   id: string;
-  content: string;
+  title: string;
+  content: string | null;
   isDone: boolean;
 };
 
