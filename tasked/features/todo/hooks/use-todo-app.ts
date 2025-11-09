@@ -1,12 +1,10 @@
-import { useReducer } from "react";
-import { INITIAL_STATE, todoReducer } from "../todo-reducer";
+import { useOperationStore } from "@/stores/operation.store";
+import { useTodos } from "./use-todos";
 
-import type { TodoScreenState } from "../todo-reducer";
 import type { Todo, TodoUpdate } from "../todo.types";
-import type { UseTodosHandlers } from "./use-todos";
 
 type State = {
-  todoState: TodoScreenState;
+  ready: boolean;
 };
 
 type Handlers = {
@@ -16,24 +14,20 @@ type Handlers = {
   press: (id: string) => void;
 };
 
-type UseTodoAppParams = {
-  todos: Todo[];
-} & Pick<UseTodosHandlers, "add" | "remove" | "update">;
+type UseTodoAppType = () => [State, Handlers];
 
-type UseTodoAppType = (params: UseTodoAppParams) => [State, Handlers];
-
-const useTodoApp: UseTodoAppType = ({ todos, add, update, remove }) => {
+const useTodoApp: UseTodoAppType = () => {
   //
 
-  const [todoState, dispatch] = useReducer(todoReducer, INITIAL_STATE);
+  const [s, { add, remove, update, find }] = useTodos();
+  const dispatch = useOperationStore((s) => s.dispatch);
 
   const handleAdding = () => {
+    const todoState = useOperationStore.getState().todoState;
     if (todoState.editing?.state) {
       //
 
-      const currentTodo = todos.find(
-        (todo) => todo.id === todoState.editing!.id
-      );
+      const currentTodo = find(todoState.editing.id);
 
       if (!currentTodo?.title) {
         remove(todoState.editing.id);
@@ -59,7 +53,7 @@ const useTodoApp: UseTodoAppType = ({ todos, add, update, remove }) => {
   const handleTextLabelPress = (id: string) =>
     dispatch({ type: "START_EDITING", id });
 
-  const state = { todoState };
+  const state = { ready: s.ready };
   const handlers = {
     add: handleAdding,
     update: handleUpdate,
@@ -71,4 +65,5 @@ const useTodoApp: UseTodoAppType = ({ todos, add, update, remove }) => {
 };
 
 export { useTodoApp };
-export type { UseTodoAppParams, UseTodoAppType };
+export type { UseTodoAppType };
+
