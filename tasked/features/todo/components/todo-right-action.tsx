@@ -1,4 +1,4 @@
-import { TextLabel } from "@/components/atoms/text-label";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StyleSheet } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import Reanimated, { useAnimatedStyle } from "react-native-reanimated";
@@ -35,7 +35,7 @@ const RightAction: RightActionType = ({
           swipeable.close();
         }}
       >
-        <TextLabel style={styles.deleteText}>Delete</TextLabel>
+        <MaterialIcons name="delete-forever" size={24} color="black" />
       </RectButton>
     </Reanimated.View>
   );
@@ -61,11 +61,11 @@ const styles = StyleSheet.create({
   rightActionContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: 80,
+    width: 50,
     height: "100%",
   },
   deleteButton: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
