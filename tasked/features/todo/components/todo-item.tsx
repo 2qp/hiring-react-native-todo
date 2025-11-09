@@ -75,7 +75,7 @@ const TodoItem: TodoItemType = ({
         renderRightActions={RightActionWrapper}
         overshootRight={false}
       >
-        <View style={styles.container}>
+        <View style={[styles.container, isThisEditing && styles.editing]}>
           <CheckBox checked={todo.isDone} onPress={() => onToggle(todo.id)} />
 
           <TouchableOpacity activeOpacity={1} style={styles.textContainer}>
@@ -105,15 +105,20 @@ const TodoItem: TodoItemType = ({
 const styles = StyleSheet.create({
   swipeable: {
     backgroundColor: "#fff",
-    paddingVertical: 8,
+    paddingVertical: 0,
   },
   container: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
+    height: 56,
     backgroundColor: "#fff",
   },
   textContainer: { flex: 1, marginLeft: 8 },
+
+  editing: {
+    backgroundColor: "#EEEEEE",
+  },
 
   completed: {
     textDecorationLine: "line-through",
