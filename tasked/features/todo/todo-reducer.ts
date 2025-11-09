@@ -42,4 +42,5 @@ const todoReducer = (
 };
 
 export { INITIAL_STATE, todoReducer };
-export type { TodoScreenState };
+export type { TodoAction, TodoScreenState };
+
