@@ -2,7 +2,7 @@ import { CheckBox } from "@/components/atoms/check-box";
 import { TextField } from "@/components/atoms/text-field";
 import { TextLabel } from "@/components/atoms/text-label";
 import { useOperationStore } from "@/stores/operation.store";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
@@ -123,6 +123,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
-export { TodoItem };
+
+const MemoizedTodoItem = memo(TodoItem);
+
+export { MemoizedTodoItem as TodoItem };
 export type { TodoItemProps, TodoItemType };
 
