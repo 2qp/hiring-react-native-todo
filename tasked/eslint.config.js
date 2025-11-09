@@ -14,7 +14,7 @@ module.exports = defineConfig([
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
-        { argsIgnorePattern: "^_" },
+        { argsIgnorePattern: "^_" , varsIgnorePattern: "^_" },
       ],
       "no-console": ["error", { allow: ["warn", "error"] }],
     },
