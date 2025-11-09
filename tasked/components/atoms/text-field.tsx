@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontStyle: "normal",
     fontSize: 18,
-    lineHeight: 18,
+    lineHeight: 19.8,
     letterSpacing: -0.003,
     borderWidth: 0,
     borderColor: "#ccc",
