@@ -1,53 +1,43 @@
 import { CheckBox } from "@/components/atoms/check-box";
 import { TextField } from "@/components/atoms/text-field";
 import { TextLabel } from "@/components/atoms/text-label";
+import { useOperationStore } from "@/stores/operation.store";
 import { useRef, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import { useTodoApp } from "../hooks/use-todo-app";
+import { useTodos } from "../hooks/use-todos";
 import { RightAction } from "./todo-right-action";
 
 import type { JSX } from "react";
 import type { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 import type { SharedValue } from "react-native-reanimated";
-import type { EditingState, Todo, TodoUpdate } from "../todo.types";
-
-type TodoStateControllers = {
-  isEditing: EditingState;
-  onTextLabelPress: (id: string) => void;
-  onBlur: (id: string) => void;
-};
+import type { Todo } from "../todo.types";
 
 type TodoItemProps = {
   todo: Todo;
-
-  onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
-  onUpdate: (id: string, payload: TodoUpdate) => void;
-} & TodoStateControllers;
+};
 
 type TodoItemType = (props: TodoItemProps) => JSX.Element;
 
-const TodoItem: TodoItemType = ({
-  todo,
-  onToggle,
-  onUpdate,
-  onDelete,
-  onTextLabelPress,
-  onBlur,
-  isEditing,
-}) => {
+const TodoItem: TodoItemType = ({ todo }) => {
   const swipeableRef = useRef<SwipeableMethods>(null);
+
+  const [_, { remove, toggle }] = useTodos();
+  const [__, { update, blur, press }] = useTodoApp();
 
   const [text, setText] = useState(todo.title || "");
 
+  const isEditing = useOperationStore((s) => s.todoState.editing);
+
   const isThisEditing = isEditing?.id === todo.id && isEditing.state;
 
-  const handleOnDelete = () => onDelete(todo.id);
+  const handleOnDelete = () => remove(todo.id);
 
   const handleSubmit = () => {
-    onUpdate(todo.id, { title: text });
-    onBlur(todo.id);
+    update(todo.id, { title: text });
+    blur();
   };
 
   //
@@ -76,7 +66,7 @@ const TodoItem: TodoItemType = ({
         overshootRight={false}
       >
         <View style={[styles.container, isThisEditing && styles.editing]}>
-          <CheckBox checked={todo.isDone} onPress={() => onToggle(todo.id)} />
+          <CheckBox checked={todo.isDone} onPress={() => toggle(todo.id)} />
 
           <TouchableOpacity activeOpacity={1} style={styles.textContainer}>
             {isThisEditing ? (
@@ -89,7 +79,7 @@ const TodoItem: TodoItemType = ({
               />
             ) : (
               <TextLabel
-                onPress={() => onTextLabelPress(todo.id)}
+                onPress={() => press(todo.id)}
                 style={[todo.isDone && styles.completed]}
               >
                 {todo.title}
@@ -134,4 +124,5 @@ const styles = StyleSheet.create({
   },
 });
 export { TodoItem };
-export type { TodoItemProps, TodoItemType, TodoStateControllers };
+export type { TodoItemProps, TodoItemType };
+
