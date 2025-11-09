@@ -2,15 +2,11 @@ import { Platform, StyleSheet, View, VirtualizedList } from "react-native";
 import { TodoItem } from "./todo-item";
 
 import type { JSX } from "react";
-import type { Todo, TodoUpdate } from "../todo.types";
-import type { TodoStateControllers } from "./todo-item";
+import type { Todo } from "../todo.types";
 
 type TodoListProps = {
   todos: Todo[];
-  onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
-  onUpdate: (id: string, payload: TodoUpdate) => void;
-} & TodoStateControllers;
+};
 
 type TodoListType = (props: TodoListProps) => JSX.Element;
 
@@ -45,3 +41,4 @@ const styles = StyleSheet.create({
 
 export { TodoList };
 export type { TodoListProps, TodoListType };
+
