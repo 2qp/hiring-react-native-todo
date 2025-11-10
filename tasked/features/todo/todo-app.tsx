@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TodoList } from "./components/todo-list";
 import { useTodoApp } from "./hooks/use-todo-app";
 import { useTodoStoreBase } from "./todo.store";
@@ -38,28 +39,30 @@ const TodosApp: TodosAppType = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={
-        titleHeight + titleMarginTop + contentMarginTop + statusBarHeight
-      }
-      style={{ flex: 1 }}
-    >
-      <TouchableWithoutFeedback onPress={dismissKeyboard} accessible={false}>
-        <View style={styles.contentContainer}>
-          <TodoList todos={todos} />
+    <GestureHandlerRootView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={
+          titleHeight + titleMarginTop + contentMarginTop + statusBarHeight
+        }
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={dismissKeyboard} accessible={false}>
+          <View style={styles.contentContainer}>
+            <TodoList todos={todos} />
 
-          <View style={styles.fabContainer}>
-            <AddCrossFAB
-              isAdding={todoState.adding}
-              onPress={handlers.add}
-              style={[]}
-              color="#FFFFFF"
-            />
+            <View style={styles.fabContainer}>
+              <AddCrossFAB
+                isAdding={todoState.adding}
+                onPress={handlers.add}
+                style={[]}
+                color="#FFFFFF"
+              />
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </GestureHandlerRootView>
   );
 };
 
