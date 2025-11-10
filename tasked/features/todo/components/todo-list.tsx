@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, View, VirtualizedList } from "react-native";
-import { TodoItem } from "./todo-item";
+import { TodoItemSwipeable } from "./todo-item-swipeable";
 
 import type { JSX } from "react";
 import type { Todo } from "../todo.types";
@@ -27,7 +27,7 @@ const TodoList: TodoListType = ({ todos, ...props }) => {
         onScrollToIndexFailed={() => {}}
         keyboardDismissMode="interactive"
         keyboardShouldPersistTaps={Platform.OS === "ios" ? "handled" : "always"}
-        renderItem={({ item }) => <TodoItem todo={item} {...props} />}
+        renderItem={({ item }) => <TodoItemSwipeable todo={item} {...props} />}
       />
     </View>
   );
